@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Basic fixture</title>
+    <style>
+      /* Hostile on purpose: everything here tries to leak into the overlay. */
+      * {
+        color: rgb(255, 0, 0) !important;
+        font-size: 40px !important;
+        font-family: "Comic Sans MS", cursive !important;
+        letter-spacing: 6px;
+      }
+      html {
+        line-height: 3;
+        text-transform: uppercase;
+      }
+      conjure-element-overlay {
+        display: none !important;
+        position: static !important;
+        opacity: 0.1;
+      }
+      aside,
+      button,
+      p {
+        background: rgb(0, 255, 0) !important;
+        border: 10px solid rgb(0, 0, 255) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">Basic fixture</h1>
+    <button id="target" class="btn" type="button">Target</button>
+    <input id="field" type="text" />
+    <iframe id="child" src="./frame.html" title="Same-origin child"></iframe>
+  </body>
+</html>

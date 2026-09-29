@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Spike: isolated world and stylesheets</title>
+    <style id="inline-sheet">
+      .box:hover {
+        color: rgb(1, 2, 3);
+      }
+      .box.later {
+        color: rgb(9, 9, 9);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box" class="box">box</div>
+    <spike-card id="card"></spike-card>
+    <script>
+      const pageSheet = new CSSStyleSheet();
+      pageSheet.replaceSync(".box:focus { outline-color: rgb(4, 5, 6); }");
+      document.adoptedStyleSheets = [pageSheet];
+
+      customElements.define(
+        "spike-card",
+        class extends HTMLElement {
+          constructor() {
+            super();
+            const root = this.attachShadow({ mode: "open" });
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(":host { display: block } .inner:hover { color: rgb(7, 8, 9); }");
+            root.adoptedStyleSheets = [sheet];
+            root.innerHTML = '<span class="inner">inner</span>';
+          }
+        },
+      );
+    </script>
+  </body>
+</html>

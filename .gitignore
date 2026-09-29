@@ -1,0 +1,16 @@
+node_modules/
+.output/
+.wxt/
+dist/
+coverage/
+test-results/
+playwright-report/
+.DS_Store
+*.log
+__screenshots__/
+
+# Xcode
+packages/safari/**/xcuserdata/
+packages/safari/**/*.xcuserstate
+packages/safari/**/build/
+DerivedData/

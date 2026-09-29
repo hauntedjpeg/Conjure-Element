@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conjure clipboard probe</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Clipboard probe</h1>
+      <p>
+        M0.5 harness. Follow <code>docs/probe/PROTOCOL.md</code> and record what Figma does in
+        <code>docs/probe/RESULTS.md</code>.
+      </p>
+      <p id="env" class="muted"></p>
+    </header>
+
+    <main>
+      <section aria-labelledby="capture-title">
+        <h2 id="capture-title">1. Capture</h2>
+        <p class="muted">
+          Shows what this browser can see of a Figma copy. The CLI
+          (<code>pnpm probe:capture</code>) sees more; use this to compare.
+        </p>
+        <div class="row">
+          <button id="read" type="button">Read clipboard</button>
+          <label class="file">
+            Load captured fixture
+            <input id="file" type="file" accept=".html,text/html" />
+          </label>
+        </div>
+        <p id="paste" class="paste">Or press ⌘V anywhere on this page to inspect the paste event</p>
+        <div id="capture-out" class="out" hidden></div>
+      </section>
+
+      <section aria-labelledby="author-title">
+        <h2 id="author-title">2. Author</h2>
+        <div class="options">
+          <label>
+            Envelope
+            <select id="variant">
+              <option value="figma-exact">figma-exact</option>
+              <option value="figit">figit</option>
+            </select>
+          </label>
+          <label>
+            Source
+            <select id="source">
+              <option value="synthetic">synthetic rectangle</option>
+              <option value="template" disabled>captured template</option>
+            </select>
+          </label>
+          <label class="check">
+            <input id="strip" type="checkbox" />
+            Strip size and transform from sparse probes
+          </label>
+        </div>
+        <p id="template-status" class="muted">No template loaded. R1 and R2 need one.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Probe</th>
+                <th>Paste</th>
+                <th>Expected</th>
+                <th>Watch for</th>
+                <th>Payload</th>
+                <th>Write</th>
+              </tr>
+            </thead>
+            <tbody id="probes"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="log-title">
+        <h2 id="log-title">3. Log</h2>
+        <ol id="log" class="log"></ol>
+      </section>
+    </main>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

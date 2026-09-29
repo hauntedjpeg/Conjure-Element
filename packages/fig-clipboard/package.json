@@ -1,0 +1,25 @@
+{
+  "name": "@conjure/fig-clipboard",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json",
+    "probe": "vite --config probe/vite.config.ts",
+    "capture": "tsx scripts/capture.ts",
+    "changecount": "tsx scripts/capture.ts --changecount",
+    "decode": "tsx scripts/decode.ts"
+  },
+  "dependencies": {
+    "@figit/fig-kiwi": "0.2.0",
+    "fflate": "^0.8.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15",
+    "vite": "^8.3.1"
+  }
+}

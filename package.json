@@ -1,0 +1,38 @@
+{
+  "name": "conjure-element",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r typecheck && tsc -p e2e/tsconfig.json",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "purity": "node scripts/check-purity.mjs",
+    "test": "vitest run --project unit",
+    "test:browser": "vitest run --project browser",
+    "test:all": "vitest run",
+    "build": "pnpm --filter @conjure/extension build",
+    "build:safari": "pnpm --filter @conjure/extension build:safari",
+    "build:e2e": "pnpm --filter @conjure/extension build:e2e",
+    "e2e": "pnpm build && pnpm build:e2e && playwright test",
+    "probe": "pnpm --filter @conjure/fig-clipboard probe",
+    "probe:capture": "pnpm --filter @conjure/fig-clipboard capture",
+    "probe:changecount": "pnpm --filter @conjure/fig-clipboard changecount",
+    "safari:generate": "bash scripts/safari-generate.sh",
+    "safari:build": "bash scripts/safari-build.sh"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@playwright/test": "^1.63.0",
+    "@types/chrome": "^0.3.4",
+    "@types/node": "^24.0.0",
+    "@vitest/browser-playwright": "^5.0.2",
+    "playwright": "^1.63.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.2"
+  }
+}

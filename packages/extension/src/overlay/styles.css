@@ -1,0 +1,128 @@
+/*
+ * `all: initial` severs inheritance from the page. The declarations are
+ * important because a page rule that matches the host (`* { … }`) would
+ * otherwise beat `:host`.
+ */
+:host {
+  all: initial !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  display: block !important;
+  pointer-events: none !important;
+  color-scheme: light dark !important;
+}
+
+.root {
+  --bg: #ffffff;
+  --text: #18181b;
+  --muted: #6b7280;
+  --line: #e4e4e7;
+  --accent: #6d28d9;
+  --hover: #f4f4f5;
+
+  font:
+    13px / 1.45 system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .root {
+    --bg: #18181b;
+    --text: #f4f4f5;
+    --muted: #a1a1aa;
+    --line: #2e2e33;
+    --accent: #a78bfa;
+    --hover: #27272a;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.panel {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  width: 380px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow:
+    0 10px 30px rgb(0 0 0 / 0.18),
+    0 2px 6px rgb(0 0 0 / 0.1);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 8px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.title {
+  font-weight: 600;
+}
+
+.icon-button {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  font: inherit;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  color: var(--text);
+  background: var(--hover);
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.panel-body {
+  padding: 12px;
+  overflow: auto;
+}
+
+.panel-body p {
+  margin: 0;
+}
+
+.panel-body .hint {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+kbd {
+  padding: 1px 5px;
+  font:
+    11px ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  background: var(--hover);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
