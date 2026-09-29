@@ -3,41 +3,7 @@
  * The cascade and state engines are built on these answers, so they are
  * pinned here as tests. Findings are written up in docs/decisions/0001.
  */
-import type { Page } from "@playwright/test";
-import { expect, test } from "./fixtures";
-
-/**
- * Run `func` in the extension's isolated world in `page`'s top frame.
- *
- * This goes through the DevTools protocol, which can evaluate test code in
- * that world directly; nothing test-specific has to ship in the extension.
- */
-async function inIsolatedWorld<T>(page: Page, func: () => T): Promise<T> {
-  const session = await page.context().newCDPSession(page);
-  const contexts: { id: number; name: string; auxData?: { type?: string; isDefault?: boolean } }[] =
-    [];
-  session.on("Runtime.executionContextCreated", (event) => contexts.push(event.context));
-  await session.send("Runtime.enable");
-  const { frameTree } = await session.send("Page.getFrameTree");
-  const world = contexts.find(
-    (context) =>
-      context.auxData?.type === "isolated" &&
-      context.name === "Conjure Element" &&
-      (context.auxData as { frameId?: string }).frameId === frameTree.frame.id,
-  );
-  if (!world) throw new Error("The extension has no isolated world in this page");
-  const { result, exceptionDetails } = await session.send("Runtime.evaluate", {
-    expression: `(${func.toString()})()`,
-    contextId: world.id,
-    returnByValue: true,
-    awaitPromise: true,
-  });
-  await session.detach();
-  if (exceptionDetails) {
-    throw new Error(exceptionDetails.exception?.description ?? exceptionDetails.text);
-  }
-  return result.value as T;
-}
+import { expect, inIsolatedWorld, test } from "./fixtures";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/spike/worlds.html");

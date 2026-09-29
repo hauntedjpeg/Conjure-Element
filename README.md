@@ -6,7 +6,9 @@ and copy the result to Figma through the clipboard.
 
 Chrome and Safari. No Figma plugin.
 
-**Status:** M0 (overlay scaffold) and the M0.5 clipboard probe harness. See
+**Status:** M1. Pick any element, including inside open shadow roots and
+frames, and see its computed styles with UA defaults hidden. Provenance,
+states, Figma mapping and copy are still to come. See
 [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Layout
@@ -57,6 +59,19 @@ developer mode, choose *Load unpacked*, and pick
 `packages/extension/.output/chrome-mv3`.
 
 **Safari.** See [docs/safari/MANUAL-CHECKLIST.md](docs/safari/MANUAL-CHECKLIST.md).
+
+## Using it
+
+Click the toolbar button, then click an element. The panel lists what
+differs from the browser's defaults; tick *Show all computed* for the rest.
+
+| Key | Does |
+|---|---|
+| `↑` / `↓` | Parent / first child |
+| `←` / `→` | Previous / next sibling |
+| `Esc` | Exit |
+
+The arrow button in the panel header starts picking again.
 
 ## Clipboard probe
 

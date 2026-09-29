@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Picker fixture: shadow DOM</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font: 16px / 1.5 Arial, sans-serif;
+      }
+      picker-card,
+      picker-vault,
+      plain-element {
+        display: block;
+        width: 300px;
+        margin-bottom: 20px;
+      }
+      #slotted-body {
+        margin: 0;
+        color: rgb(40, 40, 40);
+      }
+    </style>
+  </head>
+  <body>
+    <picker-card id="card">
+      <h2 slot="title" id="slotted-title">Title</h2>
+      <p id="slotted-body">Body</p>
+    </picker-card>
+
+    <picker-vault id="vault"></picker-vault>
+
+    <plain-element id="plain"><span id="plain-child">No shadow root here</span></plain-element>
+
+    <script>
+      customElements.define(
+        "picker-badge",
+        class extends HTMLElement {
+          constructor() {
+            super();
+            const root = this.attachShadow({ mode: "open" });
+            root.innerHTML = `
+              <style>
+                :host { display: inline-block; }
+                .dot { display: block; width: 24px; height: 24px; background: rgb(200, 0, 80); }
+              </style>
+              <span class="dot" id="dot"></span>`;
+          }
+        },
+      );
+
+      customElements.define(
+        "picker-card",
+        class extends HTMLElement {
+          constructor() {
+            super();
+            const root = this.attachShadow({ mode: "open" });
+            root.innerHTML = `
+              <style>
+                .header { padding: 8px; background: rgb(230, 230, 250); }
+                .body { padding: 12px; border: 2px solid rgb(90, 90, 200); }
+                ::slotted(h2) { margin: 0; font-size: 20px; }
+              </style>
+              <header class="header"><slot name="title"></slot></header>
+              <div class="body"><slot></slot></div>
+              <picker-badge id="badge"></picker-badge>`;
+          }
+        },
+      );
+
+      customElements.define(
+        "picker-vault",
+        class extends HTMLElement {
+          constructor() {
+            super();
+            const root = this.attachShadow({ mode: "closed" });
+            root.innerHTML = `
+              <style>.secret { width: 120px; height: 40px; }</style>
+              <button class="secret" type="button">Secret</button>`;
+          }
+        },
+      );
+
+      customElements.define("plain-element", class extends HTMLElement {});
+    </script>
+  </body>
+</html>

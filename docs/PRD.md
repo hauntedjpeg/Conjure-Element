@@ -8,6 +8,7 @@
 > Decisions taken after this draft are recorded in [decisions/](decisions/).
 > Where they differ from the text below, the decision wins:
 > §7.3 state forcing is superseded by [0002](decisions/0002-state-forcing-order.md).
+> §5.2 hit testing and §5.3 cross-origin frames are superseded by [0003](decisions/0003-picker.md).
 
 ---
 

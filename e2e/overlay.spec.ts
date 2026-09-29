@@ -61,7 +61,15 @@ test.describe("overlay", () => {
   test("the panel mounts only in the top frame", async ({ page, toggle }) => {
     await toggle(page);
     await expect(page.locator(OVERLAY)).toHaveCount(1);
-    await expect(page.frameLocator("#child").locator(OVERLAY)).toHaveCount(0);
+    await expect(page.locator(`${OVERLAY} .panel`)).toHaveCount(1);
+
+    // Every frame has an overlay, for its own highlight; only one has a panel.
+    const child = page.frameLocator("#child");
+    await expect(child.locator(OVERLAY)).toHaveCount(1);
+    await expect(child.locator(`${OVERLAY} .panel`)).toHaveCount(0);
+
+    await toggle(page);
+    await expect(child.locator(OVERLAY)).toHaveCount(0);
   });
 
   test("page styles do not reach the overlay", async ({ page, toggle }) => {

@@ -1,6 +1,6 @@
 import { browser } from "wxt/browser";
 import { defineBackground } from "wxt/utils/define-background";
-import { adoptLateFrame, broadcastInactive, toggleTab } from "../src/background/toggle";
+import { adoptLateFrame, broadcastInactive, relay, toggleTab } from "../src/background/toggle";
 import { onMessage } from "../src/messaging/bus";
 
 export default defineBackground(() => {
@@ -20,6 +20,9 @@ export default defineBackground(() => {
         return undefined;
       case "frame:hello":
         if (sender.frameId !== undefined) void adoptLateFrame(sender.tabId, sender.frameId);
+        return undefined;
+      case "relay":
+        void relay(sender.tabId, sender.frameId ?? 0, message);
         return undefined;
       default:
         return undefined;

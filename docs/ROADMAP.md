@@ -6,7 +6,7 @@ milestones are split into sessions, and where each one stands.
 | # | Scope | Exit criteria | Status |
 |---|---|---|---|
 | S1 | Scaffold, **M0** overlay, **M0.5** probe harness, core selector foundations | Overlay toggles in Chromium under test; probe harness runs | Built. Safari wrapper and the probe run are waiting on manual steps |
-| S2 | **M1** picker: box-model bands, label, composed-tree breadcrumb, arrow keys, shadow piercing, frame relay and badges, computed-styles panel with UA-baseline filter, categories, search | Picker e2e green on shadow and frame fixtures | |
+| S2 | **M1** picker: box-model bands, label, composed-tree breadcrumb, arrow keys, shadow piercing, frame relay and badges, computed-styles panel with UA-baseline filter, categories, search | Picker e2e green on shadow and frame fixtures | Built. Safari pass waiting on the wrapper. See [0003](decisions/0003-picker.md) |
 | S3 | **M2a** cascade: collect, conditions, layers, match, sort, resolve, shorthand provenance, inline, presentational attributes, inheritance, oracle | Oracle reports zero mismatches on cascade fixtures | |
 | S4 | **M2b** shadow selectors, cross-origin refetch with `@import` and URL rebasing, `@scope`, `var()` chains, pseudo-element tab, inactive rules, override-stack UI, rule indexing | Oracle clean on corpus; large-sheet fixture within budget | |
 | S5 | **M3** states: detect, triggers, in-place rewrite, clones, registry, watchdog, diff view, transition metadata, chips, banner | `:focus` oracle passes; cleanliness test byte-identical | |
@@ -27,8 +27,19 @@ S2 to S6 do not depend on the probe results. S6 is largely independent of S5.
   DOM objects plus a `CascadeHost`, and find their window through
   `el.ownerDocument.defaultView`, which is what makes iframes work.
 - **Frames.** Frame 0 owns the panel and the active state. Each frame owns
-  its own highlight layer. Selections in child frames travel to frame 0 as
-  serialisable DTOs through the worker. Clipboard writes happen in frame 0.
+  its own overlay, highlight layer and picker. Selections travel to frame 0
+  as serialisable DTOs through the worker, frame 0's own included, so there
+  is one path. The worker holds no state. Clipboard writes happen in frame 0.
+- **The owner frame keeps the elements.** A `SelectionDTO` carries no
+  element references. Anything that needs the element, such as cascade
+  resolution or state forcing, runs in the frame that owns the selection and
+  sends plain data.
+- **"Non-default" becomes "authored" in S3.** `ComputedEntry.isDefault` is
+  judged against the UA baseline alone. Once rules are matched, a property
+  is authored when a rule or inline style set it, and the noise rules in
+  `computed/diff.ts` can go.
+- **Value parsers** were planned for S2 and are not built. They belong with
+  the mappings in S6.
 - **Encoding runs in the worker.** `@figit/fig-kiwi` is about 566 KB, mostly
   schema. It must not be in a script injected into every frame.
 - **Payload cache** keyed by element, state, layout mode and kind. Stores

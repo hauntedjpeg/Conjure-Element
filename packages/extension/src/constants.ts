@@ -12,3 +12,23 @@ export const BASELINE_FRAME_NAME = "__conjure_baseline";
 
 /** Key of the idempotency guard in the content script's isolated world. */
 export const INSPECTOR_GLOBAL = "__conjureInspector";
+
+/**
+ * True in the UA-baseline frame and in anything nested inside it. Content
+ * scripts and `executeScript` both reach that frame, and the inspector has
+ * no business there.
+ */
+export function isBaselineFrame(win: Window): boolean {
+  let at: Window = win;
+  for (let depth = 0; depth < 32; depth++) {
+    try {
+      if (at.name === BASELINE_FRAME_NAME) return true;
+    } catch {
+      // A cross-origin ancestor: the baseline frame is never above one.
+      return false;
+    }
+    if (at.parent === at) return false;
+    at = at.parent;
+  }
+  return false;
+}

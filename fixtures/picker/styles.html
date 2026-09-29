@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Picker fixture: styles</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+        font: 16px / 1.5 Arial, sans-serif;
+        color: rgb(20, 20, 20);
+      }
+      #box {
+        box-sizing: content-box;
+        width: 200px;
+        height: 60px;
+        padding: 10px 20px;
+        margin: 30px 0 15px 25px;
+        border: 5px solid rgb(30, 60, 90);
+        background-color: rgb(37, 99, 235);
+        border-radius: 6px;
+      }
+      .btn {
+        display: inline-flex;
+        gap: 8px;
+        padding: 4px 12px;
+        color: rgb(255, 255, 255);
+        background-color: rgb(0, 128, 0);
+        border: 0;
+        opacity: 0.9;
+      }
+      .btn:hover {
+        background-color: rgb(200, 0, 0);
+      }
+      #list {
+        padding: 0;
+        margin: 20px 0;
+        list-style: none;
+      }
+      #list li {
+        height: 24px;
+      }
+      #scroller {
+        width: 200px;
+        height: 80px;
+        overflow: auto;
+      }
+      #scroller > div {
+        height: 600px;
+      }
+      #spacer {
+        height: 1500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box" class="card primary">Box</div>
+    <button id="hoverable" class="btn" type="button">Hover me</button>
+    <button id="counter" type="button" onclick="window.clicks = (window.clicks || 0) + 1">
+      Count
+    </button>
+    <a id="link" href="/basic/">Leave this page</a>
+    <input id="field" type="text" value="text" />
+    <button id="disabled" type="button" disabled>Disabled</button>
+    <ul id="list">
+      <li id="one">One</li>
+      <li id="two"><span id="two-child">Two</span></li>
+      <li id="three">Three</li>
+    </ul>
+    <div id="scroller"><div id="scrolled">Scrolls</div></div>
+    <div id="spacer"></div>
+    <p id="far">Far down the page</p>
+    <script>
+      window.clicks = 0;
+      window.heard = [];
+      for (const type of ["click", "mousedown", "pointerdown", "mouseup"]) {
+        document.addEventListener(type, () => window.heard.push(type));
+      }
+    </script>
+  </body>
+</html>

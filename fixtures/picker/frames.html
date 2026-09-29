@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Picker fixture: frames</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font: 16px / 1.5 Arial, sans-serif;
+      }
+      iframe {
+        display: block;
+        width: 320px;
+        height: 100px;
+        margin-bottom: 16px;
+        border: 2px solid rgb(90, 90, 90);
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="heading">Frames</h1>
+    <iframe id="same" name="same" src="./frame-inner.html" title="Same origin"></iframe>
+    <iframe
+      id="cross"
+      name="cross"
+      src="http://localhost:5181/picker/frame-inner.html"
+      title="Cross origin"
+    ></iframe>
+    <iframe
+      id="data"
+      name="data"
+      src="data:text/html,<p id='inner'>A data: document</p>"
+      title="Opaque origin"
+    ></iframe>
+    <!-- Nothing listens on this port, so the frame shows the browser's own
+         error page, which no extension may script. Blocked ads look like this. -->
+    <iframe
+      id="refused"
+      name="refused"
+      src="http://localhost:5189/"
+      title="Refuses injection"
+    ></iframe>
+  </body>
+</html>

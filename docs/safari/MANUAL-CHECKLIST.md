@@ -52,11 +52,39 @@ Then open the app it reports once, so Safari picks up the new build.
 | Web Inspector → Elements: `<conjure-element-overlay>` shows no shadow content from the page's console (`$0.shadowRoot` is `null`) | |
 | Web Inspector → Console shows no errors from the extension | |
 
+## M1: picker
+
+Run `node e2e/server.mjs` and open
+`http://localhost:5180/picker/styles.html`, `shadow.html` and `frames.html`.
+
+| Check | Pass |
+|---|---|
+| Moving over `#box` draws four bands and a label reading `div#box.card.primary 250 × 90` | |
+| Clicking it fills the panel; the bands go and an outline stays | |
+| `background-color` of *Hover me* reads `rgb(0, 128, 0)`, not the red hover colour | |
+| Clicking *Count* while picking does not count; after picking it does | |
+| The link does not navigate while picking | |
+| The *Disabled* button can be picked | |
+| The wheel scrolls the small scroller while picking | |
+| Arrow keys move the selection; in the text field they move the caret | |
+| Typing in the panel's filter narrows the list | |
+| `shadow.html`: the red square is picked, not `picker-card`; the breadcrumb shows `#shadow-root` twice | |
+| `shadow.html`: *Secret* selects `picker-vault` with a notice that it **may have** a closed shadow root | |
+| `frames.html`: elements inside the first three frames can be picked, and the breadcrumb starts with a frame crumb | |
+| `frames.html`: Up from a frame's `html` selects the `iframe` | |
+| `frames.html`: the last frame is labelled *cannot inspect* | |
+| After `Esc`, Web Inspector shows no `<conjure-element-overlay>` in any frame | |
+
 ## M0.5: clipboard
 
 Covered by step 4 of [the probe protocol](../probe/PROTOCOL.md).
 
 ## Known unknowns to watch for
+
+- Whether Safari accepts `injectImmediately`. There is a fallback, so the
+  only symptom would be a slow toolbar button on pages with slow frames.
+- Whether an `iframe` element matches `:hover` while the pointer is inside
+  it. Up and Down across a frame boundary depend on it.
 
 - Whether Safari's content-script world can adopt constructed stylesheets.
   The overlay falls back to a `<style>` element if not, so a working panel

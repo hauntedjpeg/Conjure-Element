@@ -1,5 +1,5 @@
 import { defineContentScript } from "wxt/utils/define-content-script";
-import { BASELINE_FRAME_NAME } from "../src/constants";
+import { isBaselineFrame } from "../src/constants";
 import { sendToWorker } from "../src/messaging/bus";
 
 /**
@@ -13,7 +13,7 @@ export default defineContentScript({
   matchAboutBlank: true,
   runAt: "document_idle",
   main() {
-    if (window.name === BASELINE_FRAME_NAME) return;
+    if (isBaselineFrame(window)) return;
     sendToWorker({ t: "frame:hello", isTop: window.top === window }).catch(() => {
       // The worker may be restarting; a late frame is picked up on next toggle.
     });
